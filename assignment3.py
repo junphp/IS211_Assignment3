@@ -7,7 +7,7 @@ import re
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('url', help="Enter url you want to download csv")
+    parser.add_argument('--url', help="read parameter")
     args = parser.parse_args()
 
     url = args.url
@@ -34,7 +34,12 @@ def processData(data):
 
     for x in csvData:
         total_row += 1
-        extension = imgPath.search(x[0]).group()
+        #extension = imgPath.search(x[0]).group()
+        #if(extension=='.jpg' or extension=='.gif' or extension=='.png'):
+            #imgHits += 1
+        if re.search('.jpg$|.gif$|png$|.jpeg$|.JPG$|.GIF$|.PNG$|.JPEG$',x[0]):
+            imgHits += 1
+
         if (re.search('Firefox',x[2]) or re.search('firefox',x[2])):
             browser_dir['Firefox'] += 1
         elif(re.search('Chrome',x[2]) or re.search('chrome',x[2])):
@@ -43,8 +48,6 @@ def processData(data):
             browser_dir['Internet Explorer'] += 1
         elif (re.search('Safari', x[2]) or re.search('safari', x[2])):
             browser_dir['Safari'] += 1
-        if(extension=='.jpg' or extension=='.gif' or extension=='.png'):
-            imgHits += 1
 
     top_brow = [max(zip(browser_dir.values(), browser_dir.keys()))]
     top_browser = top_brow[0][1]
